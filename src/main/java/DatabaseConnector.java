@@ -1,13 +1,81 @@
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
+import java.util.ArrayList;
 
 public class DatabaseConnector {
     private static final String USERNAME = "user";
     private static final String PASSWORD = "root";
-    private static final String DB_URL = "jdbc:mysql://localhost:3306/";
-    private Connection conn;
+    private static final String DB_URL = "jdbc:mysql://localhost:3306/my_database";
+    private static Connection conn;
+
+    static {
+        try {
+            conn = DriverManager.getConnection(DB_URL, USERNAME, PASSWORD);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public DatabaseConnector() throws SQLException {
+    }
+
+    public static void main(String[] args) {
+        try {
+
+            DatabaseConnector dbConnector = new DatabaseConnector();
+            if (dbConnector.connect()) {
+                System.out.println("Connected to the server.");
+            }
+
+            Statement stmt = conn.createStatement();
+
+            ResultSet rs = stmt.executeQuery("SELECT * FROM coordinates");
+
+            ArrayList<LenNumPair> listOfPairs = new ArrayList<>();
+
+            while (rs.next()) {
+                LenNumPair pair2 = new LenNumPair(rs.getDouble("x1"), rs.getDouble("x2"));
+
+                boolean isPairFound = false;
+
+                System.out.println(rs.getInt("x1") + " " + rs.getInt("x2") + " " + pair2);
+
+                for (LenNumPair pair : listOfPairs) {
+                    if (pair.getLen() == pair2.getLen()) {
+                        isPairFound = true;
+                        pair.setNum(pair.getNum() + 1);
+                        break;
+                    }
+                }
+                if (!isPairFound) {
+                    listOfPairs.add(pair2);
+                }
+
+            }
+            System.out.println();
+            System.out.println(listOfPairs);
+            System.out.println();
+
+            String clearTableSQL = "DELETE FROM frequencies";
+            stmt.executeUpdate(clearTableSQL);
+
+            for (LenNumPair pair : listOfPairs) {
+                String insertSQL = "INSERT INTO frequencies (len, num) VALUES (?, ?)";
+                PreparedStatement pstmt = conn.prepareStatement(insertSQL);
+                pstmt.setInt(1, pair.getLen());
+                pstmt.setInt(2, pair.getNum());
+                pstmt.executeUpdate();
+            }
+
+            ResultSet rs2=stmt.executeQuery("SELECT *FROM frequencies  WHERE len>num");
+            while (rs2.next()){
+                    System.out.println("len="+rs2.getInt("len")+" is greater then num="+rs2.getInt("num"));
+            }
+
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
     private boolean establishConnection(String dbURL) {
         try {
@@ -27,49 +95,5 @@ public class DatabaseConnector {
 
     public boolean connect() {
         return establishConnection(DB_URL);
-    }
-
-    public boolean connect(String dbName) {
-        return establishConnection(DB_URL + dbName);
-    }
-
-    public boolean createDatabase(String dbName) {
-        String createDatabaseQuery = "CREATE DATABASE IF NOT EXISTS " + dbName;
-        return executeUpdate(createDatabaseQuery, "Error creating database.");
-    }
-
-    public boolean createTable(String tableName) {
-        String createTableQuery = "CREATE TABLE IF NOT EXISTS " + tableName + " (id INT PRIMARY KEY, name VARCHAR(50));";
-        return executeUpdate(createTableQuery, "Error creating table.");
-    }
-
-    private boolean executeUpdate(String query, String errorMessage) {
-        try (Statement stmt = conn.createStatement()) {
-            stmt.executeUpdate(query);
-            return true;
-        } catch (SQLException e) {
-            System.out.println(errorMessage);
-            e.printStackTrace();
-            return false;
-        }
-    }
-
-
-    public static void main(String[] args) {
-        DatabaseConnector dbConnector = new DatabaseConnector();
-
-        if (dbConnector.connect()) {
-            System.out.println("Connected to the server.");
-            if (dbConnector.createDatabase("my_database")) {
-                System.out.println("Database created successfully.");
-                if (dbConnector.connect("my_database")) {
-                    if (dbConnector.createTable("my_table")) {
-                        System.out.println("Table created successfully.");
-                    }
-                }
-            }
-        } else {
-            System.out.println("Failed to connect to the server.");
-        }
     }
 }
