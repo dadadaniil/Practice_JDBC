@@ -4,9 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="e6bb2e4c-8233-489d-9614-d5f3435fba9e" name="Changes" comment="харош, ультанул(сделал)">
+    <list default="true" id="e6bb2e4c-8233-489d-9614-d5f3435fba9e" name="Changes" comment="stage 2 is done">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Main.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -44,23 +43,23 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "jdk.selected.JAVA_MODULE": "openjdk-20",
-    "mysql-explain.agentPath": "C:\\Users\\Dadadaniil\\AppData\\Roaming\\JetBrains\\IntelliJIdea2022.1\\plugins\\mysql-explain-intellij-plugin\\lib\\mysql-explain-agent-1.0-jar-with-dependencies.jar",
-    "mysql-explain.existMysqlJar": "true",
-    "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "preferences.pluginManager"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;jdk.selected.JAVA_MODULE&quot;: &quot;openjdk-20&quot;,
+    &quot;mysql-explain.agentPath&quot;: &quot;C:\\Users\\Dadadaniil\\AppData\\Roaming\\JetBrains\\IntelliJIdea2022.1\\plugins\\mysql-explain-intellij-plugin\\lib\\mysql-explain-agent-1.0-jar-with-dependencies.jar&quot;,
+    &quot;mysql-explain.existMysqlJar&quot;: &quot;true&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;
   },
-  "keyToStringList": {
-    "DatabaseDriversLRU": [
-      "mysql"
+  &quot;keyToStringList&quot;: {
+    &quot;DatabaseDriversLRU&quot;: [
+      &quot;mysql&quot;
     ]
   }
-}]]></component>
+}</component>
   <component name="RunManager" selected="Application.Main">
     <configuration name="DatabaseConnector" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="DatabaseConnector" />
@@ -96,6 +95,7 @@
       <workItem from="1685709119535" duration="8504000" />
       <workItem from="1685728897817" duration="775000" />
       <workItem from="1685731725815" duration="14469000" />
+      <workItem from="1685815396886" duration="770000" />
     </task>
     <task id="LOCAL-00001" summary="just spying idk...">
       <created>1685692474764</created>
@@ -118,7 +118,14 @@
       <option name="project" value="LOCAL" />
       <updated>1685780938550</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="stage 2 is done">
+      <created>1685815563956</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1685815563956</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -139,7 +146,8 @@
     <MESSAGE value="just spying idk..." />
     <MESSAGE value="done but need to add some visual cues" />
     <MESSAGE value="харош, ультанул(сделал)" />
-    <option name="LAST_COMMIT_MESSAGE" value="харош, ультанул(сделал)" />
+    <MESSAGE value="stage 2 is done" />
+    <option name="LAST_COMMIT_MESSAGE" value="stage 2 is done" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

@@ -7,7 +7,7 @@ public class Main {
 
     private static final String NUM = "num";
     private static final String LEN = "len";
-    private static final String SELECT_COORDINATES_QUERY = "SELECT * FROM " + DatabaseConnector.COORDINATES_TABLE;
+    private static final String SELECT_COORDINATES_QUERY = "SELECT ABS(CEIL(x1 - x2)) AS len, COUNT(*) AS num FROM Coordinates GROUP BY len ORDER BY len ASC";
     private static final String DELETE_FREQUENCIES_QUERY = "DELETE FROM " + DatabaseConnector.FREQUENCIES_TABLE;
     private static final String INSERT_FREQUENCIES_QUERY = "INSERT INTO " + DatabaseConnector.FREQUENCIES_TABLE + " (" + LEN + ", " + NUM + ") VALUES ";
     private static final String SELECT_FREQUENCIES_QUERY = "SELECT * FROM " + DatabaseConnector.FREQUENCIES_TABLE + " WHERE len > num ORDER BY len ASC";
@@ -29,18 +29,8 @@ public class Main {
                 List<LenNumPair> pairsList = new ArrayList<>();
 
                 while (resultSet.next()) {
-                    LenNumPair newPair = new LenNumPair(resultSet.getDouble("x1"), resultSet.getDouble("x2"));
-
-                    Optional<LenNumPair> existingPairOpt = pairsList.stream()
-                            .filter(pair -> pair.getLen() == newPair.getLen())
-                            .findFirst();
-
-                    if (existingPairOpt.isPresent()) {
-                        LenNumPair existingPair = existingPairOpt.get();
-                        existingPair.setNum(existingPair.getNum() + 1);
-                    } else {
-                        pairsList.add(newPair);
-                    }
+                    LenNumPair newPair = new LenNumPair(resultSet.getDouble(LEN), resultSet.getDouble(NUM));
+                    pairsList.add(newPair);
                     System.out.println(newPair);
                 }
 
@@ -57,8 +47,8 @@ public class Main {
                 try (PreparedStatement pstmt = conn.prepareStatement(insertQuery.toString())) {
                     for (int i = 0; i < pairsList.size(); i++) {
                         LenNumPair pair = pairsList.get(i);
-                        pstmt.setInt(i * 2 + 1, pair.getLen());
-                        pstmt.setInt(i * 2 + 2, pair.getNum());
+                        pstmt.setDouble(i * 2 + 1, pair.getLen());
+                        pstmt.setDouble(i * 2 + 2, pair.getNum());
                     }
                     pstmt.executeUpdate();
                 }
