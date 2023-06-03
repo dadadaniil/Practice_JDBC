@@ -9,7 +9,7 @@ public class Main {
     private static final String LEN = "len";
     private static final String SELECT_COORDINATES_QUERY = "SELECT * FROM " + DatabaseConnector.COORDINATES_TABLE;
     private static final String DELETE_FREQUENCIES_QUERY = "DELETE FROM " + DatabaseConnector.FREQUENCIES_TABLE;
-    private static final String INSERT_FREQUENCIES_QUERY = "INSERT INTO " + DatabaseConnector.FREQUENCIES_TABLE + " (" + LEN + ", " + NUM + ") VALUES (?, ?)";
+    private static final String INSERT_FREQUENCIES_QUERY = "INSERT INTO " + DatabaseConnector.FREQUENCIES_TABLE + " (" + LEN + ", " + NUM + ") VALUES ";
     private static final String SELECT_FREQUENCIES_QUERY = "SELECT * FROM " + DatabaseConnector.FREQUENCIES_TABLE + " WHERE len > num ORDER BY len ASC";
 
     public static void main(String[] args) {
@@ -22,43 +22,53 @@ public class Main {
             System.out.println("Connected to the server.");
             System.out.println();
 
-            Connection conn = dbConnector.getConnection();
-            Statement stmt = conn.createStatement();
-            ResultSet rs = stmt.executeQuery(SELECT_COORDINATES_QUERY);
-            List<LenNumPair> pairsList = new ArrayList<>();
+            try (Connection conn = dbConnector.getConnection();
+                 Statement stmt = conn.createStatement();
+                 ResultSet resultSet = stmt.executeQuery(SELECT_COORDINATES_QUERY)) {
 
-            while (rs.next()) {
-                LenNumPair newPair = new LenNumPair(rs.getDouble("x1"), rs.getDouble("x2"));
+                List<LenNumPair> pairsList = new ArrayList<>();
 
-                Optional<LenNumPair> existingPairOpt = pairsList.stream()
-                        .filter(pair -> pair.getLen() == newPair.getLen())
-                        .findFirst();
+                while (resultSet.next()) {
+                    LenNumPair newPair = new LenNumPair(resultSet.getDouble("x1"), resultSet.getDouble("x2"));
 
-                if (existingPairOpt.isPresent()) {
-                    LenNumPair existingPair = existingPairOpt.get();
-                    existingPair.setNum(existingPair.getNum() + 1);
-                } else {
-                    pairsList.add(newPair);
+                    Optional<LenNumPair> existingPairOpt = pairsList.stream()
+                            .filter(pair -> pair.getLen() == newPair.getLen())
+                            .findFirst();
+
+                    if (existingPairOpt.isPresent()) {
+                        LenNumPair existingPair = existingPairOpt.get();
+                        existingPair.setNum(existingPair.getNum() + 1);
+                    } else {
+                        pairsList.add(newPair);
+                    }
+                    System.out.println(newPair);
                 }
-                System.out.println(newPair);
+
+                System.out.println();
+                stmt.executeUpdate(DELETE_FREQUENCIES_QUERY);
+
+                StringBuilder insertQuery = new StringBuilder(INSERT_FREQUENCIES_QUERY);
+                for (int i = 0; i < pairsList.size(); i++) {
+                    insertQuery.append("(?, ?)");
+                    if (i < pairsList.size() - 1) {
+                        insertQuery.append(", ");
+                    }
+                }
+                try (PreparedStatement pstmt = conn.prepareStatement(insertQuery.toString())) {
+                    for (int i = 0; i < pairsList.size(); i++) {
+                        LenNumPair pair = pairsList.get(i);
+                        pstmt.setInt(i * 2 + 1, pair.getLen());
+                        pstmt.setInt(i * 2 + 2, pair.getNum());
+                    }
+                    pstmt.executeUpdate();
+                }
+
+                try (ResultSet resultSet2 = stmt.executeQuery(SELECT_FREQUENCIES_QUERY)) {
+                    while (resultSet2.next()) {
+                        System.out.println(LEN + " = " + resultSet2.getInt(LEN) + " is greater than num = " + resultSet2.getInt(NUM));
+                    }
+                }
             }
-
-            System.out.println();
-            stmt.executeUpdate(DELETE_FREQUENCIES_QUERY);
-
-            for (LenNumPair pair : pairsList) {
-                PreparedStatement pstmt = conn.prepareStatement(INSERT_FREQUENCIES_QUERY);
-                pstmt.setInt(1, pair.getLen());
-                pstmt.setInt(2, pair.getNum());
-                pstmt.executeUpdate();
-            }
-
-            ResultSet rs2 = stmt.executeQuery(SELECT_FREQUENCIES_QUERY);
-
-            while (rs2.next()) {
-                System.out.println(LEN + " = " + rs2.getInt(LEN) + " is greater than num = " + rs2.getInt(NUM));
-            }
-
         } catch (SQLException e) {
             throw new RuntimeException("Error executing SQL.", e);
         }

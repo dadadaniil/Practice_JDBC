@@ -4,9 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="e6bb2e4c-8233-489d-9614-d5f3435fba9e" name="Changes" comment="done but need to add some visual cues">
+    <list default="true" id="e6bb2e4c-8233-489d-9614-d5f3435fba9e" name="Changes" comment="харош, ультанул(сделал)">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/DatabaseConnector.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/DatabaseConnector.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Main.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -96,7 +95,7 @@
       <workItem from="1685685475258" duration="5268000" />
       <workItem from="1685709119535" duration="8504000" />
       <workItem from="1685728897817" duration="775000" />
-      <workItem from="1685731725815" duration="9100000" />
+      <workItem from="1685731725815" duration="14469000" />
     </task>
     <task id="LOCAL-00001" summary="just spying idk...">
       <created>1685692474764</created>
@@ -112,7 +111,14 @@
       <option name="project" value="LOCAL" />
       <updated>1685773467270</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="харош, ультанул(сделал)">
+      <created>1685780938550</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1685780938550</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -132,7 +138,8 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="just spying idk..." />
     <MESSAGE value="done but need to add some visual cues" />
-    <option name="LAST_COMMIT_MESSAGE" value="done but need to add some visual cues" />
+    <MESSAGE value="харош, ультанул(сделал)" />
+    <option name="LAST_COMMIT_MESSAGE" value="харош, ультанул(сделал)" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
