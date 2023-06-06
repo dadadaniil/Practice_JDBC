@@ -29,7 +29,7 @@ public class Main {
                 List<LenNumPair> pairsList = new ArrayList<>();
 
                 while (resultSet.next()) {
-                    LenNumPair newPair = new LenNumPair(resultSet.getDouble(LEN), resultSet.getDouble(NUM));
+                    LenNumPair newPair = new LenNumPair(resultSet.getInt(LEN), resultSet.getInt(NUM));
                     pairsList.add(newPair);
                     System.out.println(newPair);
                 }
